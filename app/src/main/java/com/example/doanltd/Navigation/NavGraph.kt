@@ -20,7 +20,7 @@ import com.example.doanltd.Screen.CategoryScreen
 import com.example.doanltd.Screen.ChatScreen
 import com.example.doanltd.Screen.HomeScreen
 import com.example.doanltd.Screen.LoginScreen
-import com.example.doanltd.Screen.MessageScreen
+import com.example.doanltd.Screen.NotificationScreen
 import com.example.doanltd.Screen.OrderHistoryScreen
 import com.example.doanltd.Screen.ProductDetailScreen
 import com.example.doanltd.Screen.ProfileScreen
@@ -114,7 +114,7 @@ fun AuthNavigation() {
             ProfileScreen(navController = navController)
         }
         composable(Screen.Message.route) {
-            MessageScreen(navController = navController)
+            NotificationScreen(navController = navController)
         }
         composable(Screen.Chat.route) {
             ChatScreen(navController = navController)

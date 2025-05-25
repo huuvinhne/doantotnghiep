@@ -56,7 +56,7 @@ interface ApiService{
 object RetrofitInstance{
     val api:ApiService by lazy {
         Retrofit.Builder()
-            .baseUrl("http://192.168.1.5/restful_api_php/api/")
+            .baseUrl("http://192.168.1.13/restful_api_php/api/")
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .build()
             .create(ApiService::class.java)

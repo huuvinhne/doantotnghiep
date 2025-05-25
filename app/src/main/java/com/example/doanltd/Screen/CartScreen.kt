@@ -129,7 +129,7 @@ fun CartScreen(navController: NavHostController) {
                     icon = { Icon(Icons.Default.List, contentDescription = "Đơn hàng") },
                     label = { Text("Đơn hàng", fontSize = 10.sp) },
                     selected = false,
-                    onClick = { navController.navigate(Screen.OrderHistory.route) },
+                    onClick = { navController.navigate(Screen.XemDonHang.route) },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = Color(0xFF009966),
                         selectedTextColor = Color(0xFF009966),
@@ -153,7 +153,7 @@ fun CartScreen(navController: NavHostController) {
                     icon = { Icon(Icons.Default.Person, contentDescription = "Thông tin") },
                     label = { Text("Thông tin", fontSize = 10.sp) },
                     selected = false,
-                    onClick = { navController.navigate(Screen.Profile.route) },
+                    onClick = { navController.navigate(Screen.Setting.route) },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = Color(0xFF009966),
                         selectedTextColor = Color(0xFF009966),

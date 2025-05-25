@@ -12,24 +12,24 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.doanltd.AppDatabase
 import com.example.doanltd.CartManager
-
 import com.example.doanltd.Navigation.Screen
 import com.example.doanltd.RoomDatabase.CartRoom.CartItemEntity
 import com.example.doanltd.View.SanPhamViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,127 +53,212 @@ fun ProductDetailScreen(
 
     if (product == null) {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xFFB3E5FC)),
             contentAlignment = Alignment.Center
         ) {
-            CircularProgressIndicator()
+            CircularProgressIndicator(color = Color.White)
         }
         return
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Chi tiết sản phẩm") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
-                }
-            )
-        }
-    ) { paddingValues ->
+    // Light blue background matching the image
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFB3E5FC))
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
         ) {
+            // Custom top bar with light blue background
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                IconButton(
+                    onClick = { navController.navigateUp() },
+                    modifier = Modifier.size(40.dp)
+                ) {
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = "Back",
+                        tint = Color.Black,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+
+                // Logo placeholder - replace with your actual logo
+                Text(
+                    text = "🍔H",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFFFF4B12)
+                )
+            }
+
+            // Product image with rounded corners
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(300.dp)
+                    .height(280.dp)
+                    .padding(horizontal = 16.dp)
             ) {
                 AsyncImage(
-                    model = product!!.HinhSp,  // Ảnh sản phẩm
+                    model = product!!.HinhSp,
                     contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(16.dp)),
                     contentScale = ContentScale.Crop
                 )
             }
 
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // Product details section
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp)
             ) {
+                // Price section
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+                    horizontalArrangement = Arrangement.Start,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column {
-                        Text(
-                            "${product!!.DonGia.toInt()}đ",
-                            style = MaterialTheme.typography.headlineSmall,
-                            fontWeight = FontWeight.Bold,
-                            color = Color(0xFFFF4B12)
-                        )
-                        Text(
-                            "Giá gốc: 100.000đ",
-                            style = MaterialTheme.typography.bodyMedium,
-                            textDecoration = TextDecoration.LineThrough,
-                            color = Color.Gray
-                        )
-                    }
                     Text(
-                        "-25%",
-                        modifier = Modifier
-                            .background(
-                                color = Color(0xFFFF4B12),
-                                shape = RoundedCornerShape(4.dp)
-                            )
-                            .padding(horizontal = 8.dp, vertical = 4.dp),
-                        color = Color.White
+                        text = "${product!!.DonGia.toInt()}.000đ",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFFFF4B12)
+                    )
+
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Text(
+                        text = "60.000đ",
+                        fontSize = 16.sp,
+                        color = Color.Gray,
+                        textDecoration = TextDecoration.LineThrough
                     )
                 }
 
+                Spacer(modifier = Modifier.height(12.dp))
+
+                // Product name
+                Text(
+                    text = product!!.TenSp,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1976D2),
+                    lineHeight = 24.sp
+                )
+
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Product description
                 Text(
-                    product!!.TenSp,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
+                    text = "Chi tiết món ăn gồm có:",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Black
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    "Mô tả sản phẩm:",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                    text = product!!.MoTa,
+                    fontSize = 14.sp,
+                    color = Color.Black,
+                    lineHeight = 20.sp
                 )
 
-                Text(
-                    product!!.MoTa,
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                Spacer(modifier = Modifier.height(40.dp))
 
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Button(
-                    onClick = {
-                        val cartItem = CartItemEntity(
-                            MaSp = product!!.MaSp,
-                            name = product!!.TenSp,
-                            price = product!!.DonGia,
-                            quantity = 1,
-                            imageUrl = product!!.HinhSp,
-                            SoLuongSP = product!!.SoLuong
-                        )
-                        CoroutineScope(Dispatchers.IO).launch {
-                            CartManager(context).addToCart(cartItem)
-                        }
-                        navController.navigate(Screen.Cart.route)
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF4B12))
+                // Action buttons
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 20.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Text("Thêm vào giỏ hàng")
-                }
+                    // Add to cart button
+                    Button(
+                        onClick = {
+                            val cartItem = CartItemEntity(
+                                MaSp = product!!.MaSp,
+                                name = product!!.TenSp,
+                                price = product!!.DonGia,
+                                quantity = 1,
+                                imageUrl = product!!.HinhSp,
+                                SoLuongSP = product!!.SoLuong
+                            )
+                            CoroutineScope(Dispatchers.IO).launch {
+                                CartManager(context).addToCart(cartItem)
+                            }
+                            navController.navigate(Screen.Cart.route)
+                        },
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(50.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF4FC3F7)
+                        ),
+                        shape = RoundedCornerShape(25.dp)
+                    ) {
+                        Text(
+                            "Thêm vào giỏ hàng",
+                            color = Color.White,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
 
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    // Order button - Updated to navigate to OrderDetailsScreen
+                    Button(
+                        onClick = {
+                            // Add product to cart first
+                            val cartItem = CartItemEntity(
+                                MaSp = product!!.MaSp,
+                                name = product!!.TenSp,
+                                price = product!!.DonGia,
+                                quantity = 1,
+                                imageUrl = product!!.HinhSp,
+                                SoLuongSP = product!!.SoLuong
+                            )
+                            CoroutineScope(Dispatchers.IO).launch {
+                                CartManager(context).addToCart(cartItem)
+                            }
+                            // Navigate to OrderDetailsScreen
+                            navController.navigate(Screen.OrderDetails.route)
+                        },
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(50.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF26A69A)
+                        ),
+                        shape = RoundedCornerShape(25.dp)
+                    ) {
+                        Text(
+                            "Đặt hàng",
+                            color = Color.White,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
+                }
             }
         }
     }
 }
-

@@ -108,7 +108,7 @@ fun SettingScreen(navController: NavController) {
                         icon = { Icon(Icons.Default.List, contentDescription = "Đơn hàng") },
                         label = { Text("Đơn hàng", fontSize = 10.sp) },
                         selected = false,
-                        onClick = { navController.navigate(Screen.OrderHistory.route) },
+                        onClick = { navController.navigate(Screen.XemDonHang.route) },
                         colors = NavigationBarItemDefaults.colors(
                             selectedIconColor = Color(0xFF009966),
                             selectedTextColor = Color(0xFF009966),
@@ -212,6 +212,14 @@ fun SettingScreen(navController: NavController) {
                         icon = Icons.Default.Person,
                         title = "Hồ sơ",
                         onClick = { navController.navigate(Screen.Profile.route) },
+                        isDarkMode = isDarkMode
+                    )
+
+                    // NEW: View Orders menu item
+                    SettingMenuItem(
+                        icon = Icons.Default.Receipt,
+                        title = "Xem đơn hàng",
+                        onClick = { navController.navigate(Screen.XemDonHang.route) },
                         isDarkMode = isDarkMode
                     )
 

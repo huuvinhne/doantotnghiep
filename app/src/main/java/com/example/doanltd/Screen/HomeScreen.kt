@@ -356,11 +356,12 @@ fun HomeScreen(navController: NavController, viewModel: SanPhamViewModel = viewM
                         unselectedTextColor = Color.Gray
                     )
                 )
+                //OrderHistory -> lịch sử đơn hàng
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.List, contentDescription = "Đơn hàng") },
                     label = { Text("Đơn hàng", fontSize = 10.sp) },
                     selected = false,
-                    onClick = { navController.navigate(Screen.OrderHistory.route) },
+                    onClick = { navController.navigate(Screen.XemDonHang.route) },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = Color(0xFF009966),
                         selectedTextColor = Color(0xFF009966),

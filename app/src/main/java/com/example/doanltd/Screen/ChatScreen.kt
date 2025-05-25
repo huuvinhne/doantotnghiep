@@ -93,7 +93,7 @@ fun ChatScreen(navController: NavController) {
                         placeholder = { Text("Nhập tin nhắn...") },
 
 
-                    )
+                        )
                     IconButton(
                         onClick = { /* Handle send */ },
                         modifier = Modifier
